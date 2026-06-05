@@ -1,8 +1,13 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { FiUser } from "react-icons/fi";
+import { RiMenu3Line } from "react-icons/ri";
+import { IoMdClose } from "react-icons/io";
+import { useState } from "react";
 
 export default function Navbar () {
+    const [navOpen, setNavOpen] = useState(false)
     const navLinks = [
         {
             label: "Home",
@@ -34,7 +39,7 @@ export default function Navbar () {
                 <p className="font-bold text-gray-800 text-xl italic">CampusLink</p>
             </Link>
 
-            <div className="flex items-center gap-7">
+            <div className="flex items-center gap-7 max-md:hidden">
                 {
                     navLinks.map((item, index)=> (
                         <Link key={index} href={item.url} className="text-lg hover:text-[#36ADA3] transition-all duration-200">{item.label}</Link>
@@ -42,10 +47,16 @@ export default function Navbar () {
                 }
             </div>
             
-            <Link href={"/auth/signin"} className="border flex items-center gap-2 rounded-full px-4 py-1 border-gray-700 text-lg hover:bg-black hover:text-white transition-all duration-200">
+            <Link href={"/auth/signin"} className="border flex items-center gap-2 rounded-full px-4 py-1 border-gray-700 text-lg hover:bg-black hover:text-white transition-all duration-200 max-md:hidden">
                 <FiUser />
                 Sign In
             </Link>
+
+            <button onClick={()=> setNavOpen(!navOpen)} className="text-2xl md:hidden">
+                {
+                    navOpen ? <IoMdClose /> : <RiMenu3Line />
+                }             
+            </button>
         </main>
     )
 }
