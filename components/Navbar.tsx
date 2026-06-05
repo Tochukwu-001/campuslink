@@ -27,8 +27,8 @@ export default function Navbar () {
         },
     ]
     return (
-        <main className="flex items-center justify-between md:px-10 md:py-2 p-3 shadow-md sticky top-0">
-            <Link href={"/"} className="flex items-center gap-1">
+        <main className="flex items-center justify-between md:px-10 md:py-2 p-3 shadow-md relative  ">
+            <Link href={"/"} className="flex items-center gap-1 z-50">
                 <Image
                     src={"/logo.png"}
                     alt="logo"
@@ -52,11 +52,27 @@ export default function Navbar () {
                 Sign In
             </Link>
 
-            <button onClick={()=> setNavOpen(!navOpen)} className="text-2xl md:hidden">
+            <button onClick={()=> setNavOpen(!navOpen)} className="text-2xl md:hidden z-50">
                 {
                     navOpen ? <IoMdClose /> : <RiMenu3Line />
                 }             
             </button>
+
+            {/* mobile nav */}
+            <div className={`w-full h-dvh bg-white absolute top-0 left-0 md:hidden px-20 ${navOpen ? "flex" : "hidden"} flex-col `}>
+                <div className="flex items-center gap-7 flex-col pt-20">
+                {
+                    navLinks.map((item, index)=> (
+                        <Link key={index} href={item.url} className="text-lg hover:text-[#36ADA3] transition-all duration-200">{item.label}</Link>
+                    ))
+                }
+                </div>
+            
+                <Link href={"/auth/signin"} className="border flex items-center justify-center mt-7 gap-2 rounded-full px-4 py-1 border-gray-700 text-lg hover:bg-black hover:text-white transition-all duration-200    ">
+                    <FiUser />
+                    Sign In
+                </Link>
+            </div>
         </main>
     )
 }
