@@ -2,45 +2,38 @@ import { theme } from "@/components/Styles";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
-import { signIn } from "@/auth"
+import { auth, signIn } from "@/auth";
 
+export default async function Signin() {
 
-export default function Signin() {
-  // Pure Server Side Action handling form submissions
-  async function handleSignIn(formData: FormData) {
-    "use server";
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    // Implement your server-side authentication logic here
-    console.log("Signing in with:", email, password);
-  }
-
-  // Pure Server Side Action handling Google OAuth flow redirect
-  async function handleGoogleSignIn() {
-    "use server";
-    // Implement your provider redirect logic here (e.g., Auth.js / NextAuth or Supabase)
-    console.log("Redirecting to Google OAuth...");
-  }
+  const session = await auth()
+  console.log(session);  
 
   return (
     <main className="min-h-screen bg-slate-50 flex items-center justify-center px-4 font-sans">
       <div className="w-full max-w-md bg-white border border-slate-100 rounded-3xl shadow-xl shadow-slate-200/50 p-8 md:p-10">
-        
         {/* Brand & Header text */}
         <div className="text-center mb-8">
-          <span 
+          <span
             className="text-2xl font-extrabold tracking-tight block mb-2"
             style={{ color: theme.primaryColor }}
           >
             Campus<span style={{ color: theme.secondaryColor }}>Link</span>
           </span>
-          <h1 className="text-xl font-bold text-slate-800 mb-1">Welcome back!</h1>
-          <p className="text-sm text-slate-500">Sign in to sync your shared resources</p>
+          <h1 className="text-xl font-bold text-slate-800 mb-1">
+            Welcome back!
+          </h1>
+          <p className="text-sm text-slate-500">
+            Sign in to sync your shared resources
+          </p>
         </div>
 
-        {/* Google OAuth Provider Button (Wrapped in its own server action form) */}
-        <form action={handleGoogleSignIn} className="mb-6">
+        <form
+          action={async () => {
+            "use server";
+            await signIn("google");
+          }}
+        >
           <button
             type="submit"
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-xl font-medium text-slate-700 hover:bg-slate-50 active:bg-slate-100/80 shadow-sm transition-all duration-200 text-sm"
@@ -60,7 +53,7 @@ export default function Signin() {
         </div>
 
         {/* Credentials Authentication Form */}
-        <form action={handleSignIn} className="space-y-5">
+        <form className="space-y-5">
           {/* Email Field Container */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
@@ -86,8 +79,8 @@ export default function Signin() {
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
                 Password
               </label>
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="text-xs font-medium hover:underline"
                 style={{ color: theme.secondaryColor }}
               >
@@ -121,15 +114,14 @@ export default function Signin() {
         {/* Bottom Link Row */}
         <p className="text-center text-xs text-slate-500 mt-8">
           Don&apos;t have an account yet?{" "}
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="font-semibold hover:underline"
             style={{ color: theme.primaryColor }}
           >
             Create account
           </Link>
         </p>
-
       </div>
     </main>
   );
