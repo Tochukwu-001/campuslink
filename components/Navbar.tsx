@@ -4,9 +4,16 @@ import Link from "next/link";
 import { FiUser } from "react-icons/fi";
 import { RiMenu3Line } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import Avatar from '@mui/material/Avatar';
+
 
 export default function Navbar () {
+
+    const {data: session} = useSession()
+    console.log(session);    
+
     const [navOpen, setNavOpen] = useState(false)
     const navLinks = [
         {
@@ -46,11 +53,16 @@ export default function Navbar () {
                     ))
                 }
             </div>
+
+            {
+                session ?  <Avatar alt={session?.user?.name} src={session?.user?.image} /> : (
+                <Link href={"/auth/signin"} className="border flex items-center gap-2 rounded-full px-4 py-1 border-gray-700 text-lg hover:bg-black hover:text-white transition-all duration-200 max-md:hidden">
+                    <FiUser />
+                    Sign In
+                </Link>
+                )
+            }
             
-            <Link href={"/auth/signin"} className="border flex items-center gap-2 rounded-full px-4 py-1 border-gray-700 text-lg hover:bg-black hover:text-white transition-all duration-200 max-md:hidden">
-                <FiUser />
-                Sign In
-            </Link>
 
             <button onClick={()=> setNavOpen(!navOpen)} className="text-2xl md:hidden z-50">
                 {

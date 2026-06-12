@@ -3,11 +3,16 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
 import { auth, signIn } from "@/auth";
+import { redirect } from "next/navigation";
 
 export default async function Signin() {
 
   const session = await auth()
-  console.log(session);  
+  // console.log(session);
+
+  if(session){
+    redirect("/feed")
+  }
 
   return (
     <main className="min-h-screen bg-slate-50 flex items-center justify-center px-4 font-sans">
