@@ -5,7 +5,7 @@ import { FiUser } from "react-icons/fi";
 import { RiMenu3Line } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
 import { useId, useState } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -93,9 +93,13 @@ export default function Navbar() {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleClose}>
+            <Link href={"/my-account"}>My Account</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+            <Link href={"/post"}>Make a Post</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}><button onClick={() => signOut()}>Log Out</button></MenuItem>
       </Menu>
     </div>
       ) : (
