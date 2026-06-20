@@ -10,7 +10,7 @@ export default async function Post () {
     }
     return (
         <main className="min-h-dvh">
-            <PostClient/>
+            <PostClient session={session}/>
         </main>
     )
 }

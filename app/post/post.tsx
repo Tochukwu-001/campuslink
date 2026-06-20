@@ -1,15 +1,21 @@
 "use client";
 import { theme } from "@/components/Styles";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import { HiPaperAirplane } from "react-icons/hi2";
-import { HiOutlineDocumentText, HiOutlinePencilAlt, HiOutlineTag } from "react-icons/hi";
+import {
+  HiOutlineDocumentText,
+  HiOutlinePencilAlt,
+  HiOutlineTag,
+} from "react-icons/hi";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "@/config/firebase";
 
-export default function PostClient() {
+export default function PostClient({session}) {
   const iv = {
     title: "",
     desc: "",
-    cat: ""
+    cat: "",
   };
 
   const validationObject = Yup.object({
@@ -19,36 +25,44 @@ export default function PostClient() {
     desc: Yup.string()
       .required("Description is a required field")
       .min(20, "Please provide a more descriptive update (min 20 characters)"),
-    cat: Yup.string()
-      .required("Please select a valid category")
+    cat: Yup.string().required("Please select a valid category"),
   });
 
   return (
     <main className="min-h-screen text-slate-800 font-sans flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-2xl bg-white border border-slate-100 rounded-3xl shadow-xl shadow-slate-200/50 p-6 md:p-10">
-        
         {/* Header Block */}
         <div className="mb-8 border-b border-slate-100 pb-5">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900" style={{ color: theme.primaryColor }}>
+          <h1
+            className="text-2xl font-bold tracking-tight text-slate-900"
+            style={{ color: theme.primaryColor }}
+          >
             Create a New Post
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Share updates, alternative teaching methods, or study resources with fellow students across CampusLink.
+            Share updates, alternative teaching methods, or study resources with
+            fellow students across CampusLink.
           </p>
         </div>
 
-        <Formik 
+        <Formik
           initialValues={iv}
           validationSchema={validationObject}
-          onSubmit={(values, { resetForm }) => {
+          onSubmit={ async (values, { resetForm }) => {
             console.log("Submitted Form Values Data:", values);
-            // Implement your client-to-server submission logic or action dispatcher here
+            const docRef = await addDoc(collection(db, "news"), {
+              author: session?.user?.name,
+              timestamp: new Date().toLocaleTimeString(),
+              img: session?.user?.image,
+              userId: session?.user?.id,
+              ...values
+            });
+            console.log("Document written with ID: ", docRef.id);
             resetForm();
           }}
         >
           {({ isSubmitting }) => (
             <Form className="space-y-6">
-              
               {/* Post Title Field Container */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
@@ -58,14 +72,18 @@ export default function PostClient() {
                   <span className="absolute top-3.5 left-3.5 text-slate-400">
                     <HiOutlineDocumentText className="text-lg" />
                   </span>
-                  <Field 
+                  <Field
                     name="title"
                     type="text"
                     placeholder="e.g., MTH 101: Visual Guide to Limits & Continuity"
                     className="w-full pl-11 pr-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-teal-500 focus:bg-white transition-all"
                   />
                 </div>
-                <ErrorMessage name="title" component="p" className="text-red-500 text-xs font-medium pl-1 mt-1" />
+                <ErrorMessage
+                  name="title"
+                  component="p"
+                  className="text-red-500 text-xs font-medium pl-1 mt-1"
+                />
               </div>
 
               {/* Category Field Container */}
@@ -77,12 +95,14 @@ export default function PostClient() {
                   <span className="absolute top-3.5 left-3.5 text-slate-400 pointer-events-none">
                     <HiOutlineTag className="text-lg" />
                   </span>
-                  <Field 
-                    name="cat" 
+                  <Field
+                    name="cat"
                     as="select"
                     className="w-full pl-11 pr-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-teal-500 focus:bg-white transition-all appearance-none cursor-pointer text-slate-700"
                   >
-                    <option value="" disabled className="text-slate-400">Choose an option...</option>
+                    <option value="" disabled className="text-slate-400">
+                      Choose an option...
+                    </option>
                     <option value="study-resources">Study Resources</option>
                     <option value="campus-news">Campus News</option>
                     <option value="teaching-method">Teaching Method</option>
@@ -92,7 +112,11 @@ export default function PostClient() {
                     ▼
                   </div>
                 </div>
-                <ErrorMessage name="cat" component="p" className="text-red-500 text-xs font-medium pl-1 mt-1" />
+                <ErrorMessage
+                  name="cat"
+                  component="p"
+                  className="text-red-500 text-xs font-medium pl-1 mt-1"
+                />
               </div>
 
               {/* Description Textarea Container */}
@@ -104,7 +128,7 @@ export default function PostClient() {
                   <span className="absolute top-3.5 left-3.5 text-slate-400">
                     <HiOutlinePencilAlt className="text-lg" />
                   </span>
-                  <Field 
+                  <Field
                     name="desc"
                     as="textarea"
                     rows={5}
@@ -112,7 +136,11 @@ export default function PostClient() {
                     className="w-full pl-11 pr-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-teal-500 focus:bg-white transition-all resize-none"
                   />
                 </div>
-                <ErrorMessage name="desc" component="p" className="text-red-500 text-xs font-medium pl-1 mt-1" />
+                <ErrorMessage
+                  name="desc"
+                  component="p"
+                  className="text-red-500 text-xs font-medium pl-1 mt-1"
+                />
               </div>
 
               {/* Call to Action Button Row */}
@@ -127,7 +155,6 @@ export default function PostClient() {
                   {isSubmitting ? "Posting..." : "Make Post"}
                 </button>
               </div>
-
             </Form>
           )}
         </Formik>
