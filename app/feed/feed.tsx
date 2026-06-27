@@ -9,12 +9,13 @@ import {
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 // Define an explicit type for your news post structure
 interface NewsItem {
   docId: string;
   author?: string;
-  authorImg?: string;
+  img?: string;
   cat?: string;
   title?: string;
   newsUpdate?: string;
@@ -81,20 +82,19 @@ export default function FeedClient({ userId }) {
           </div>
         ) : (
           feedItems.map((item) => (
-            <article
+            <Link href={"/feed/" + item.docId}
               key={item.docId}
-              className="bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow p-6"
+              className="bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow p-6 block"
             >
               {/* Header: Author Info & Meta Details */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   {/* Author Profile Image with Initials Fallback Option */}
-                  {item.authorImg ? (
+                  {item.img ? (
                     <div className="relative w-10 h-10 rounded-full overflow-hidden border border-slate-100 bg-slate-100">
-                      <Image
-                        src={item.authorImg}
+                      <img
+                        src={item.img}
                         alt={item.author || "Author"}
-                        fill
                         className="object-cover"
                       />
                     </div>
@@ -159,7 +159,7 @@ export default function FeedClient({ userId }) {
                   </div>
                 )}
               </div>
-            </article>
+            </Link>
           ))
         )}
       </div>

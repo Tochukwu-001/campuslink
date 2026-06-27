@@ -123,9 +123,9 @@ export default function Navbar() {
 
       {/* mobile nav */}
       <div
-        className={`w-full h-dvh bg-white absolute top-0 left-0 md:hidden px-20 ${navOpen ? "flex" : "hidden"} flex-col `}
+        className={`w-full h-dvh bg-white absolute top-0 left-0 md:hidden px-20 ${navOpen ? "flex" : "hidden"} flex-col z-40`}
       >
-        <div className="flex items-center gap-7 flex-col pt-20">
+        <div className="flex items-center gap-7 flex-col pt-20 z-50">
           {navLinks.map((item, index) => (
             <Link
               key={index}
