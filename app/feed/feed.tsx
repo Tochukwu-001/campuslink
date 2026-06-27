@@ -82,7 +82,8 @@ export default function FeedClient({ userId }) {
           </div>
         ) : (
           feedItems.map((item) => (
-            <Link href={"/feed/" + item.docId}
+            <Link
+              href={"/feed/" + item.docId}
               key={item.docId}
               className="bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow p-6 block"
             >
@@ -150,7 +151,11 @@ export default function FeedClient({ userId }) {
                 {userId == item.userId && (
                   <div className="flex items-center">
                     <button
-                      onClick={() => handleDelete(item.docId)}
+                      onClick={(e) => {
+                        e.preventDefault(); // Prevents default Link behavior
+                        e.stopPropagation(); // Stops the click event from bubbling up to the Link wrapper
+                        handleDelete(item.docId);
+                      }}
                       className="flex items-center gap-1.5 text-slate-400 hover:text-red-600 transition-colors py-1 px-2.5 rounded-lg hover:bg-red-50 font-bold"
                     >
                       <HiOutlineTrash className="text-lg" />

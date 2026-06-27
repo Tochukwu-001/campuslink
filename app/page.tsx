@@ -27,14 +27,14 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link 
-                href="/" 
+                href="/post" 
                 className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-medium shadow-lg shadow-teal-600/20 hover:shadow-xl hover:shadow-teal-600/30 transition-all duration-200 text-white text-center"
                 style={{ backgroundColor: theme.secondaryColor }}
               >
                 Share Resources
               </Link>
               <Link 
-                href="/" 
+                href="/about" 
                 className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-medium border-2 text-center"
                 style={{ color: theme.secondaryColor }}
               >
