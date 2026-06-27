@@ -7,23 +7,21 @@ export default function Home() {
       {/* Hero Section with Restored Background Image */}
       <section className="min-h-dvh bg-[url('/bg.jpg')] bg-no-repeat bg-center bg-cover">
         {/* Light overlay tint to make text pop while showcasing the image */}
-        <div className="min-h-dvh bg-white/60 flex items-center justify-center px-6 py-20">
+        <div className="min-h-dvh bg-black/60 flex items-center justify-center px-6 py-20">
           <div className="max-w-4xl mx-auto text-center">
             <span 
               className="inline-block text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full bg-teal-100/80 mb-6"
-              style={{ color: theme.secondaryColor }}
             >
               Academic Collaboration Hub
             </span>
             
             <h1 
-              className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight"
-              style={{ color: theme.primaryColor }}
+              className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-white"
             >
-              Connect With <span style={{ color: theme.secondaryColor }}>Peers</span>
+              Connect With Peers
             </h1>
             
-            <p className="text-lg md:text-xl text-slate-700 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
               A hub for students and aspiring students of various tertiary institutions to connect, share resources, and discover diverse teaching methods to drastically improve academic performance.
             </p>
 
@@ -37,8 +35,8 @@ export default function Home() {
               </Link>
               <Link 
                 href="/" 
-                className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-medium border-2 hover:bg-white/50 transition-all duration-200 text-center"
-                style={{ color: theme.primaryColor, borderColor: theme.primaryColor }}
+                className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-medium border-2 text-center"
+                style={{ color: theme.secondaryColor }}
               >
                 Learn More
               </Link>

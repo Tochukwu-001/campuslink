@@ -72,36 +72,38 @@ export default function Navbar() {
       </div>
 
       {session ? (
-         <div>
-      <button
-        id={buttonId}
-        aria-controls={open ? menuId : undefined}
-        aria-haspopup="true"
-        aria-expanded={open}
-        onClick={handleClick}
-      >
-        <Avatar alt={session?.user?.name} src={session?.user?.image} />
-      </button>
-      <Menu
-        id={menuId}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        slotProps={{
-          list: {
-            'aria-labelledby': buttonId,
-          },
-        }}
-      >
-        <MenuItem onClick={handleClose}>
-            <Link href={"/my-account"}>My Account</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-            <Link href={"/post"}>Make a Post</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}><button onClick={() => signOut()}>Log Out</button></MenuItem>
-      </Menu>
-    </div>
+        <div>
+          <button
+            id={buttonId}
+            aria-controls={open ? menuId : undefined}
+            aria-haspopup="true"
+            aria-expanded={open}
+            onClick={handleClick}
+          >
+            <Avatar alt={session?.user?.name} src={session?.user?.image} />
+          </button>
+          <Menu
+            id={menuId}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            slotProps={{
+              list: {
+                "aria-labelledby": buttonId,
+              },
+            }}
+          >
+            <MenuItem onClick={handleClose}>
+              <Link href={"/my-account"}>My Account</Link>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link href={"/post"}>Make a Post</Link>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <button onClick={() => signOut()}>Log Out</button>
+            </MenuItem>
+          </Menu>
+        </div>
       ) : (
         <Link
           href={"/auth/signin"}
@@ -111,7 +113,7 @@ export default function Navbar() {
           Sign In
         </Link>
       )}
-
+      
       <button
         onClick={() => setNavOpen(!navOpen)}
         className="text-2xl md:hidden z-50"
